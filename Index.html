@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #001510);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+        
+        .login-form, .menu {
+            padding: 40px;
+            width: 100%;
+            transition: transform 0.6s ease;
+        }
+        
+        .login-form {
+            display: block;
+        }
+        
+        .menu {
+            display: none;
+            text-align: center;
+        }
+        
+        .title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+            font-size: 28px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: none;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 30px;
+            outline: none;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group input:focus {
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(to right, #00b09b, #96c93d);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .error-message {
+            color: #ff6b6b;
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 500;
+            min-height: 25px;
+        }
+        
+        .menu-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .menu-btn {
+            padding: 18px;
+            border-radius: 15px;
+            border: none;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .menu-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px);
+        }
+        
+        .delay-btn {
+            background: linear-gradient(to right, #3494E6, #EC6EAD);
+        }
+        
+        .forclose-btn {
+            background: linear-gradient(to right, #FF416C, #FF4B2B);
+        }
+        
+        .logout-btn {
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .success-message {
+            color: #96c93d;
+            font-size: 18px;
+            text-align: center;
+            margin-top: 20px;
+            animation: fadeIn 1s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            color: white;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            display: none;
+        }
+        
+        .result h3 {
+            margin-bottom: 15px;
+        }
+        
+        .result p {
+            text-align: center;
+            line-height: 1.6;
+        }
+        
+        .back-btn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                margin: 0 20px;
+            }
+            
+            .login-form, .menu {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Login Form -->
+        <div class="login-form">
+            <h1 class="title">Login System</h1>
+            
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="username" placeholder="Username" required>
+            </div>
+            
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
+            
+            <button class="btn" onclick="login()">Login</button>
+            
+            <div class="error-message" id="errorMessage"></div>
+            
+            <div class="footer">
+                <p>Username: rovi | Password: maklu</p>
+            </div>
+        </div>
+        
+        <!-- Menu Section -->
+        <div class="menu">
+            <h1 class="title">Menu Utama</h1>
+            
+            <div class="success-message">
+                <i class="fas fa-check-circle"></i> Login berhasil!
+            </div>
+            
+            <div class="menu-buttons">
+                <button class="menu-btn delay-btn" onclick="showDelay()">
+                    <i class="fas fa-clock"></i> Delay
+                </button>
+                
+                <button class="menu-btn forclose-btn" onclick="showForclose()">
+                    <i class="fas fa-exclamation-triangle"></i> Forclose
+                </button>
+                
+                <button class="menu-btn logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+            
+            <div class="result" id="result">
+                <!-- Result content will be shown here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Login function
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Check credentials
+            if(username === 'rovi' && password === 'maklu') {
+                // Hide login form
+                document.querySelector('.login-form').style.display = 'none';
+                // Show menu
+                document.querySelector('.menu').style.display = 'block';
+                // Clear error message
+                errorMessage.textContent = '';
+            } else {
+                // Show error message
+                errorMessage.textContent = 'Username atau password salah!';
+                // Shake animation for error
+                document.querySelector('.container').style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    document.querySelector('.container').style.animation = '';
+                }, 500);
+            }
+        }
+        
+        // Logout function
+        function logout() {
+            // Hide menu
+            document.querySelector('.menu').style.display = 'none';
+            // Show login form
+            document.querySelector('.login-form').style.display = 'block';
+            // Clear inputs
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            // Hide result if shown
+            document.getElementById('result').style.display = 'none';
+        }
+        
+        // Show Delay information
+        function showDelay() {
+            const result = document.getElementById('result');
+            result.innerHTML = `
+                <h3><i class="fas fa-clock"></i> Menu Delay</h3>
+                <p>Fitur delay memungkinkan Anda untuk menunda pembayaran atau penagihan dengan ketentuan tertentu.</p>
+                <p>Silakan hubungi customer service untuk informasi lebih lanjut mengenai penundaan.</p>
+                <button class="back-btn" onclick="hideResult()">Kembali ke Menu</button>
+            `;
+            result.style.display = 'flex';
+        }
+        
+        // Show Forclose information
+        function showForclose() {
+            const result = document.getElementById('result');
+            result.innerHTML = `
+                <h3><i class="fas fa-exclamation-triangle"></i> Menu Forclose</h3>
+                <p>Forclose adalah proses pengambilalihan aset akibat ketidakmampuan memenuhi kewajiban pembayaran.</p>
+                <p>Anda dapat mengajukan permohonan peninjauan ulang untuk kasus forclose ini.</p>
+                <button class="back-btn" onclick="hideResult()">Kembali ke Menu</button>
+            `;
+            result.style.display = 'flex';
+        }
+        
+        // Hide result
+        function hideResult() {
+            document.getElementById('result').style.display = 'none';
+        }
+        
+        // Allow login with Enter key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                login();
+            }
+        });
+        
+        // Add shake animation for errors
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+                20%, 40%, 60%, 80% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
